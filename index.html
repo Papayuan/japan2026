@@ -15,6 +15,7 @@
             --transport-color: #27ae60;
             --walk-color: #e67e22;
             --tip-color: #8e44ad;
+            --food-color: #e74c3c;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -51,6 +52,7 @@
             background: #e0e0e0;
             border-radius: 20px;
             padding: 4px;
+            flex-wrap: wrap;
         }
         .nav-tab {
             flex: 1;
@@ -61,6 +63,8 @@
             font-weight: bold;
             font-size: 0.9em;
             color: #666;
+            min-width: 70px;
+            margin: 2px;
         }
         .nav-tab.active {
             background: white;
@@ -98,6 +102,7 @@
         .card.food { border-left-color: #e74c3c; }
         .card.walk { border-left-color: var(--walk-color); background-color: #fffbf0; }
         .card.tip { border-left-color: var(--tip-color); background-color: #f3e5f5; }
+        .card.restaurant { border-left-color: var(--food-color); background-color: #fffbfb; }
 
         .time {
             font-weight: bold;
@@ -109,6 +114,7 @@
         .card.transport .time { color: var(--transport-color); }
         .card.walk .time { color: var(--walk-color); }
         .card.tip .time { color: var(--tip-color); }
+        .card.restaurant .time { color: var(--food-color); }
 
         .title {
             font-size: 1.1em;
@@ -213,6 +219,15 @@
             margin-bottom: 8px;
             font-size: 0.95em;
         }
+
+        .tag {
+            background-color: #eee;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: #555;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -226,6 +241,7 @@
     <div class="nav-tabs">
         <div class="nav-tab active" onclick="switchTab('itinerary')">📅 行程</div>
         <div class="nav-tab" onclick="switchTab('guides')">🚶 攻略</div>
+        <div class="nav-tab" onclick="switchTab('food')">🍽️ 美食</div>
         <div class="nav-tab" onclick="switchTab('tips')">🎒 準備</div>
     </div>
 
@@ -235,6 +251,10 @@
 
     <div id="guides" class="section">
         <div id="guides-container"></div>
+    </div>
+
+    <div id="food" class="section">
+        <div id="food-container"></div>
     </div>
     
     <div id="tips" class="section">
@@ -268,15 +288,6 @@
             <div class="desc">
                 <div class="checklist-item">✅ 請在出發前填寫完畢，並將 QR Code 截圖存在手機。</div>
                 <a href="https://vjw-lp.digital.go.jp/zh-hant/" target="_blank" class="action-link">🔗 前往填寫</a>
-            </div>
-        </div>
-
-        <div class="card tip">
-            <span class="time">🚅 轉乘小撇步</span>
-            <div class="title">西瓜卡 (Suica)</div>
-            <div class="desc">
-                <div class="checklist-item">✅ 10歲小孩：請在機場JR櫃台買「兒童版 Suica」(半價)。</div>
-                <div class="checklist-item">✅ 大人：可直接用 iPhone 錢包加入 Suica。</div>
             </div>
         </div>
     </div>
@@ -324,11 +335,6 @@
                     time: "13:00 - 13:30 (轉乘空檔)",
                     title: "🍱 必買：新幹線便當",
                     desc: "東京車站「駅弁屋 祭」 (改札內)",
-                    steps: [
-                        "📍 位置：東京車站 1F 中央通路 (轉乘新幹線必經)",
-                        "🚄 推薦：買「新幹線造型便當」給小孩車上吃",
-                        "💡 策略：避開車站餐廳排隊，在新幹線上悠閒享用午餐"
-                    ],
                     location: "駅弁屋 祭"
                 },
                 {
@@ -489,7 +495,7 @@
     const guideData = [
         {
             title: "🟢 舊輕井澤銀座通 (異國風情)",
-            tag: "適合: 2/16 中午 (天氣好時)",
+            tag: "適合: 2/16 中午",
             content: [
                 { text: "🐰 **Miffy Kitchen (米飛兔)**: 小孩必逛，造型麵包超可愛。", query: "Miffy Kitchen Karuizawa" },
                 { text: "🥖 **French Bakery**: 約翰藍儂最愛的麵包店。", query: "French Bakery Karuizawa" },
@@ -504,13 +510,12 @@
             content: [
                 { text: "⛸️ **Kera-Ike 溜冰場**: **大推「椅子雪橇」**，小孩不用會溜也能坐著玩！", query: "Kera-Ike Ice Rink" },
                 { text: "🐿️ **Picchio 生態中心**: 推薦預約黃昏的「飛鼠歸巢觀察」。", query: "Picchio Karuizawa" },
-                { text: "☕ **丸山咖啡**: 世界冠軍級咖啡，有整面書牆。", query: "Maruyama Coffee Harunire Terrace" },
-                { text: "🍜 **希須林 (Kishin)**: 中式料理，有不辣的麵食適合小孩。", query: "Kishin Karuizawa" }
+                { text: "☕ **丸山咖啡**: 世界冠軍級咖啡，有整面書牆。", query: "Maruyama Coffee Harunire Terrace" }
             ]
         },
         {
             title: "⚡ 東京親子購物首選",
-            tag: "適合: 2/18 下午/晚間 (入住 Conrad 後)",
+            tag: "適合: 2/18 下午/晚間",
             content: [
                 { text: "📍 **寶可夢中心 Tokyo DX**: 日本橋高島屋 S.C. 東館 5F，有卡比獸與專屬Cafe。", query: "Pokemon Center Tokyo DX" },
                 { text: "💡 **交通**: 從 Conrad 搭計程車約 ¥800-1000，非常近。", query: "" }
@@ -523,6 +528,95 @@
                 { text: "📍 **銀座 木村家**: 紅豆麵包發源地。必買 **酒種 櫻** 與 **酒種 小倉**。", query: "Ginza Kimuraya" },
                 { text: "✏️ **伊東屋 (G.Itoya)**: 文具控天堂，10歲小朋友會愛死這裡。", query: "G. Itoya" },
                 { text: "👕 **UNIQLO 銀座**: 12層樓世界旗艦店。", query: "UNIQLO Ginza" }
+            ]
+        }
+    ];
+
+    const foodData = [
+        {
+            location: "📍 舊輕井澤銀座 (2/16 午餐)",
+            restaurants: [
+                {
+                    name: "川上庵 (Kawakamian)",
+                    type: "蕎麥麵",
+                    desc: "招牌炸大蝦天婦羅。⚠️ **注意**: 蝦過敏小孩請改點「鴨肉蕎麥麵」或「核桃醬蕎麥麵」。",
+                    query: "Kawakami An Karuizawa"
+                },
+                {
+                    name: "酢重正之 (Suaju)",
+                    type: "日式定食",
+                    desc: "味噌料理與銅鍋飯。**非牛友善**：烤魚與炸雞定食非常美味，小孩接受度高。",
+                    query: "Suaju Karuizawa"
+                },
+                {
+                    name: "Atelier de Fromage",
+                    type: "起司料理",
+                    desc: "起司鍋 & 焗烤咖哩。熱騰騰的起司沾麵包，冬天吃最溫暖。",
+                    query: "Atelier de Fromage Kyukaruizawa"
+                }
+            ]
+        },
+        {
+            location: "📍 榆樹街小鎮 / 虹夕諾雅 (2/17 午晚餐)",
+            restaurants: [
+                {
+                    name: "村民食堂 (Sonmin-Shokudo)",
+                    type: "日式家庭料理",
+                    desc: "星野區必吃。種類多(火鍋、炸豬排、丼飯)，環境舒適，**極度適合家庭**。",
+                    query: "Sonmin-Shokudo"
+                },
+                {
+                    name: "il sogno",
+                    type: "義式料理",
+                    desc: "窯烤披薩與義大利麵。若小孩想吃西式口味的首選。",
+                    query: "il sogno Karuizawa"
+                },
+                {
+                    name: "希須林 (Kishin)",
+                    type: "中式料理",
+                    desc: "擔擔麵名店，也有不辣的湯麵與炒飯給小孩。",
+                    query: "Kishin Karuizawa"
+                }
+            ]
+        },
+        {
+            location: "📍 輕井澤王子 Outlet (備案)",
+            restaurants: [
+                {
+                    name: "明治亭 (Meijitei)",
+                    type: "醬汁炸豬排丼",
+                    desc: "長野縣名物。**非牛友善**首選，豬排酥脆醬汁濃郁，一定要試試。",
+                    query: "Meijitei Karuizawa Prince Shopping Plaza"
+                },
+                {
+                    name: "築地晴吉 (Tsukiji Harekichi)",
+                    type: "壽司",
+                    desc: "新鮮壽司。可單點避開蝦子。",
+                    query: "Tsukiji Harekichi Karuizawa"
+                }
+            ]
+        },
+        {
+            location: "📍 東京銀座 / 汐留 (2/18 晚餐)",
+            restaurants: [
+                {
+                    name: "鳥銀 (Toriggin) 銀座本店",
+                    type: "釜飯 & 燒鳥",
+                    desc: "銀座老舖。主打**雞肉串燒**與釜飯，完全**不吃牛也沒問題**，氣氛熱鬧。",
+                    query: "Toriggin Ginza"
+                },
+                {
+                    name: "佐藤養助 (Satou Yosuke)",
+                    type: "稻庭烏龍麵",
+                    desc: "麵條細滑口感極佳，小孩通常會吃光光。沾醬有芝麻與醬油兩種。",
+                    query: "Satou Yosuke Ginza"
+                },
+                {
+                    name: "Bubby's 汐留",
+                    type: "美式餐廳",
+                    desc: "離 Conrad 很近。有漢堡也有**蘋果派**，適合不想走太遠的選擇。",
+                    query: "Bubby's Shiodome"
+                }
             ]
         }
     ];
@@ -589,11 +683,50 @@
         container.innerHTML = html;
     }
 
+    function renderFood() {
+        const container = document.getElementById('food-container');
+        let html = '';
+
+        foodData.forEach(group => {
+            let itemsHtml = group.restaurants.map(rest => {
+                let mapBtn = rest.query 
+                    ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rest.query)}" target="_blank" class="map-btn">📍導航</a>` 
+                    : '';
+                let descFormatted = rest.desc.replace(/\*\*(.*?)\*\*/g, '<span style="color:#e74c3c; font-weight:bold;">$1</span>');
+                
+                return `
+                    <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eee;">
+                        <div style="font-weight:bold; font-size:1.05em; color:#2c3e50;">
+                            ${rest.name} <span class="tag">${rest.type}</span> ${mapBtn}
+                        </div>
+                        <div style="font-size:0.9em; color:#555; margin-top:4px;">${descFormatted}</div>
+                    </div>
+                `;
+            }).join('');
+
+            html += `
+                <div class="card restaurant">
+                    <div class="title" style="margin-bottom:15px; border-bottom:2px solid #eee; padding-bottom:5px;">${group.location}</div>
+                    ${itemsHtml}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
     function switchTab(tabId) {
         document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-        event.target.classList.add('active');
+        // Find the specific tab element that was clicked
+        // Since we are using inline onclick, we need to manually match
+        // A simpler way is to just add 'active' to all tabs that match the ID text, but here:
+        const tabs = document.querySelectorAll('.nav-tab');
+        if(tabId === 'itinerary') tabs[0].classList.add('active');
+        if(tabId === 'guides') tabs[1].classList.add('active');
+        if(tabId === 'food') tabs[2].classList.add('active');
+        if(tabId === 'tips') tabs[3].classList.add('active');
+        
         window.scrollTo({top: 0});
     }
 
@@ -603,6 +736,7 @@
 
     renderTimeline();
     renderGuides();
+    renderFood();
 </script>
 
 </body>
