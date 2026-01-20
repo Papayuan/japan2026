@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 日本家族旅遊行程表</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f4f7f6;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --transport-color: #27ae60;
+            --walk-color: #e67e22;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 80px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1.8em;
+        }
+        .subtitle {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            padding: 4px;
+        }
+        .nav-tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .day-group {
+            margin-bottom: 40px;
+        }
+        .date-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent);
+            position: relative;
+        }
+        /* Color coding */
+        .card.flight { border-left-color: #9b59b6; }
+        .card.hotel { border-left-color: #e67e22; }
+        .card.transport { border-left-color: var(--transport-color); }
+        .card.food { border-left-color: #e74c3c; }
+        .card.walk { border-left-color: var(--walk-color); background-color: #fffbf0; }
+
+        .time {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .card.transport .time { color: var(--transport-color); }
+        .card.walk .time { color: var(--walk-color); }
+
+        .title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .desc {
+            color: #444;
+            margin-bottom: 8px;
+        }
+        
+        .steps {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin: 8px 0;
+            border-left: 2px solid #ddd;
+        }
+        .step-item {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .step-icon { margin-right: 8px; min-width: 15px; }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: var(--text-light);
+            flex-wrap: wrap;
+        }
+        .icon { margin-right: 6px; }
+        
+        .alert {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            border: 1px solid #ffeeba;
+        }
+        
+        .highlight-box {
+            background-color: #fff0f0;
+            border: 1px solid #ffcccc;
+            color: #c0392b;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .copy-btn {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            margin-left: 8px;
+            color: #555;
+        }
+        
+        .action-link {
+            display: inline-block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 15px;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 100;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🇯🇵 日本家族旅遊 2026</h1>
+        <div class="subtitle">2026/02/14 - 2026/02/19</div>
+    </header>
+
+    <div class="nav-tabs">
+        <div class="nav-tab active" onclick="switchTab('itinerary')">📅 行程總覽</div>
+        <div class="nav-tab" onclick="switchTab('guides')">🚶 散策攻略</div>
+    </div>
+
+    <div id="itinerary" class="section active">
+        <div id="timeline-container"></div>
+    </div>
+
+    <div id="guides" class="section">
+        <div id="guides-container"></div>
+    </div>
+
+</div>
+
+<div class="fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">🔝</div>
+
+<script>
+    // --- 資料區 ---
+    const tripData = [
+        {
+            date: "2026/02/14 (週六)",
+            events: [
+                {
+                    type: "transport",
+                    time: "下午/晚上",
+                    title: "前往桃園",
+                    desc: "高鐵 左營 -> 桃園站",
+                    steps: ["🚄 高鐵抵達桃園站", "🚕 轉乘計程車/接駁車至飯店"]
+                },
+                {
+                    type: "hotel",
+                    time: "15:00 Check-in",
+                    title: "桃園喜來登酒店",
+                    desc: "Superior 2 Queen Beds Room",
+                    ref: "94533051",
+                    location: "Sheraton Taoyuan Hotel",
+                    notes: "含早餐 | 建議預約明早機場接駁"
+                }
+            ]
+        },
+        {
+            date: "2026/02/15 (週日)",
+            events: [
+                {
+                    type: "flight",
+                    time: "07:55 - 12:00",
+                    title: "長榮航空 BR184",
+                    desc: "TPE (T2) ✈️ NRT (T1)",
+                    ref: "DBVM4U"
+                },
+                {
+                    type: "transport",
+                    time: "13:00 - 15:30",
+                    title: "機場 -> 輕井澤",
+                    steps: [
+                        "🎫 機場 JR 東日本中心購票 (N'EX + 新幹線)",
+                        "🚆 N'EX: 機場 -> 東京站 (B5月台)",
+                        "🚶 轉乘: 搭電梯至 2F 新幹線月台",
+                        "🚄 新幹線: 東京 -> 輕井澤 (南口)",
+                        "🚕 計程車: 輕井澤站 -> 王子西館"
+                    ],
+                    alert: "買票記得出示護照，10歲小孩買兒童票(半價)。"
+                },
+                {
+                    type: "hotel",
+                    time: "15:00 Check-in",
+                    title: "輕井澤王子大飯店西館",
+                    desc: "豪華露台雙床房",
+                    ref: "43795SF162083",
+                    location: "Karuizawa Prince Hotel West",
+                    notes: "一泊二食 | 房內有露台"
+                },
+                {
+                    type: "food",
+                    time: "19:00",
+                    title: "晚餐: Primrose 自助餐",
+                    desc: "飯店內",
+                    ref: "GLL7HN",
+                    alert: "⚠️ 食物過敏：小孩(蝦子)。僅一位成人吃牛肉。"
+                }
+            ]
+        },
+        {
+            date: "2026/02/16 (週一)",
+            events: [
+                {
+                    type: "walk",
+                    time: "11:00 - 14:00",
+                    title: "退房後：舊輕井澤散策",
+                    desc: "推薦前往「舊輕井澤銀座通」吃午餐與逛街 (詳見散策攻略)",
+                    notes: "行李建議寄放王子飯店或車站"
+                },
+                {
+                    type: "transport",
+                    time: "14:30",
+                    title: "前往虹夕諾雅",
+                    desc: "王子西館/車站 -> 虹夕諾雅",
+                    steps: ["🚕 強烈建議直接搭計程車 (約¥3000)", "輕鬆直達，免去接駁車轉乘"]
+                },
+                {
+                    type: "hotel",
+                    time: "15:00 Check-in",
+                    title: "虹夕諾雅 輕井澤",
+                    desc: "水波房 (Mizunami) - 2晚",
+                    ref: "pr1gbzaq1x",
+                    location: "HOSHINOYA Karuizawa",
+                    notes: "不含餐食 | 已全額預付"
+                }
+            ]
+        },
+        {
+            date: "2026/02/17 (週二)",
+            events: [
+                {
+                    type: "walk",
+                    time: "全日",
+                    title: "度假模式：榆樹街小鎮",
+                    desc: "享受星野溫泉區 (詳見散策攻略)",
+                    steps: [
+                        "☕ 丸山咖啡喝冠軍咖啡",
+                        "⛸️ 蜻蜓之湯旁溜冰 (有椅子雪橇!)"
+                    ]
+                }
+            ]
+        },
+        {
+            date: "2026/02/18 (週三)",
+            events: [
+                {
+                    type: "transport",
+                    time: "12:00 退房後",
+                    title: "移動至東京",
+                    steps: [
+                        "🚄 新幹線: 輕井澤 -> 東京站",
+                        "🚕 關鍵: 東京站搭計程車直達 Conrad (避開汐留地鐵迷宮)"
+                    ]
+                },
+                {
+                    type: "hotel",
+                    time: "15:00 Check-in",
+                    title: "東京康萊德酒店",
+                    desc: "King Exe Suite Bay View",
+                    ref: "3316059736",
+                    location: "Conrad Tokyo"
+                },
+                {
+                    type: "food",
+                    time: "15:00 - 17:00 / 18:00",
+                    title: "💎 行政酒廊禮遇",
+                    desc: "37樓 Executive Lounge",
+                    steps: [
+                        "🫖 15:00-17:00 下午茶 (Afternoon Tea)",
+                        "🍸 18:00-20:00 傍晚雞尾酒 (Evening Cocktails)"
+                    ],
+                    alert: "您記得的 17:00 可能是下午茶結束/雞尾酒開始的交接時段。建議入住時確認當日正確時段，可視為簡易晚餐。"
+                },
+                {
+                    type: "walk",
+                    time: "晚間",
+                    title: "銀座木村家與逛街",
+                    desc: "搭計程車去銀座四丁目 (詳見散策攻略)"
+                }
+            ]
+        },
+        {
+            date: "2026/02/19 (週四)",
+            events: [
+                {
+                    type: "transport",
+                    time: "10:30 出發",
+                    title: "專車接送至機場",
+                    desc: "飯店 1F 大廳集合 (Minivan)",
+                    notes: "已備註：1個增高墊"
+                },
+                {
+                    type: "flight",
+                    time: "14:00 - 17:05",
+                    title: "長榮航空 BR197",
+                    desc: "NRT (T1) ✈️ TPE (T2)"
+                },
+                {
+                    type: "transport",
+                    time: "20:10 - 21:45",
+                    title: "台灣高鐵 681",
+                    desc: "桃園 -> 左營"
+                }
+            ]
+        }
+    ];
+
+    const guideData = [
+        {
+            title: "🟢 舊輕井澤銀座通 (異國風情)",
+            tag: "適合: 2/16 中午 (退房後)",
+            content: [
+                "🐰 **Miffy Kitchen (米飛兔)**: 入口處不遠，造型麵包超可愛，小孩必逛。",
+                "🥖 **French Bakery**: 約翰藍儂最愛的麵包店，推薦「法國長棍」。",
+                "⛪ **聖保羅教堂**: 巷弄裡的木造教堂，拍照很美。",
+                "🌭 **腸詰屋**: 現烤德式香腸，天冷吃很過癮。",
+                "💡 **交通**: 從王子飯店搭計程車直達「舊輕井澤入口」，行李寄放車站或飯店。"
+            ]
+        },
+        {
+            title: "🔵 榆樹街小鎮 & 冰上時光 (森林浴)",
+            tag: "適合: 2/17 全日 (虹夕諾雅旁)",
+            content: [
+                "⛸️ **Kera-Ike 溜冰場**: 森林中的戶外溜冰場。**大推「椅子雪橇」**，小孩不用會溜也能坐著讓大人推，非常好玩！",
+                "☕ **丸山咖啡**: 世界冠軍級咖啡，有整面書牆，氣氛溫暖。",
+                "🍜 **希須林 (Kishin)**: 中式料理，有不辣的麵食適合小孩。",
+                "💡 **交通**: 從虹夕諾雅搭乘村內接駁車 (Velfire) 或步行前往。"
+            ]
+        },
+        {
+            title: "🔴 銀座經典 & 木村家紅豆麵包",
+            tag: "適合: 2/18 傍晚 (入住 Conrad 後)",
+            content: [
+                "📍 **銀座 木村家 (Ginza Kimuraya)**: 紅豆麵包發源地 (銀座4丁目)。",
+                "🍞 **必買推薦**: 1. **酒種 櫻 (Sakura)** (招牌鹹甜味) 2. **酒種 小倉** (經典紅豆)。",
+                "✏️ **伊東屋 (G.Itoya)**: 文具控天堂，10歲小朋友會愛死這裡。",
+                "👕 **UNIQLO / 無印良品**: 都在附近，世界旗艦店。",
+                "💡 **交通**: 從 Conrad 搭計程車至「銀座四丁目交叉點」約 ¥1000，回程也建議搭車，省力且不用走汐留地下道。"
+            ],
+            map: "銀座木村家總本店"
+        }
+    ];
+
+    // --- 渲染函式 ---
+    function renderTimeline() {
+        const container = document.getElementById('timeline-container');
+        let html = '';
+
+        tripData.forEach(day => {
+            let eventsHtml = '';
+            day.events.forEach(event => {
+                let extraHtml = '';
+                if (event.ref) {
+                    extraHtml += `<div class="detail-row"><span class="icon">🔖</span>訂號: <strong>${event.ref}</strong><button class="copy-btn" onclick="copyToClipboard('${event.ref}')">複製</button></div>`;
+                }
+                if (event.location) {
+                    extraHtml += `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}" target="_blank" class="action-link">📍 地圖</a>`;
+                }
+                if (event.steps) {
+                    let stepsHtml = event.steps.map(step => `<div class="step-item"><span class="step-icon">▪️</span>${step}</div>`).join('');
+                    extraHtml += `<div class="steps">${stepsHtml}</div>`;
+                }
+                if (event.alert) {
+                    extraHtml += `<div class="alert">${event.alert}</div>`;
+                }
+
+                eventsHtml += `
+                    <div class="card ${event.type}">
+                        <span class="time">${event.time}</span>
+                        <div class="title">${event.title}</div>
+                        <div class="desc">${event.desc}</div>
+                        ${event.notes ? `<div class="detail-row" style="color:#555">ℹ️ ${event.notes}</div>` : ''}
+                        ${extraHtml}
+                    </div>
+                `;
+            });
+            html += `<div class="day-group"><div class="date-header">${day.date}</div>${eventsHtml}</div>`;
+        });
+        container.innerHTML = html;
+    }
+
+    function renderGuides() {
+        const container = document.getElementById('guides-container');
+        let html = '';
+
+        guideData.forEach(guide => {
+            let contentHtml = guide.content.map(line => {
+                // 簡單的 Markdown 粗體處理
+                let formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                return `<div style="margin-bottom:8px;">${formatted}</div>`;
+            }).join('');
+
+            let mapLink = guide.map ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(guide.map)}" target="_blank" class="action-link">📍 開啟地圖導航</a>` : '';
+
+            html += `
+                <div class="card walk">
+                    <div class="title">${guide.title}</div>
+                    <div class="time" style="font-weight:normal; font-size:0.85em; margin-bottom:10px;">${guide.tag}</div>
+                    <div class="desc">${contentHtml}</div>
+                    ${mapLink}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function switchTab(tabId) {
+        // 隱藏所有 section
+        document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+        // 顯示選中的 section
+        document.getElementById(tabId).classList.add('active');
+        
+        // 更新 Tab 樣式
+        document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => alert('已複製: ' + text));
+    }
+
+    // 初始化
+    renderTimeline();
+    renderGuides();
+</script>
+
+</body>
+</html>
