@@ -16,6 +16,7 @@
             --walk-color: #e67e22;
             --tip-color: #8e44ad;
             --food-color: #e74c3c;
+            --book-color: #16a085;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -24,11 +25,11 @@
             margin: 0;
             padding: 20px;
             line-height: 1.6;
+            padding-bottom: 80px; /* 給 FAB 按鈕留空間 */
         }
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 80px;
         }
         header {
             text-align: center;
@@ -63,7 +64,7 @@
             font-weight: bold;
             font-size: 0.9em;
             color: #666;
-            min-width: 70px;
+            min-width: 60px;
             margin: 2px;
         }
         .nav-tab.active {
@@ -96,6 +97,7 @@
             position: relative;
         }
         
+        /* Card Types & Colors */
         .card.flight { border-left-color: #9b59b6; }
         .card.hotel { border-left-color: #e67e22; }
         .card.transport { border-left-color: var(--transport-color); }
@@ -103,7 +105,9 @@
         .card.walk { border-left-color: var(--walk-color); background-color: #fffbf0; }
         .card.tip { border-left-color: var(--tip-color); background-color: #f3e5f5; }
         .card.restaurant { border-left-color: var(--food-color); background-color: #fffbfb; }
+        .card.book { border-left-color: var(--book-color); background-color: #e8f8f5; }
 
+        /* Time Styling */
         .time {
             font-weight: bold;
             color: var(--accent);
@@ -115,6 +119,7 @@
         .card.walk .time { color: var(--walk-color); }
         .card.tip .time { color: var(--tip-color); }
         .card.restaurant .time { color: var(--food-color); }
+        .card.book .time { color: var(--book-color); }
 
         .title {
             font-size: 1.1em;
@@ -126,6 +131,7 @@
             margin-bottom: 8px;
         }
         
+        /* Steps Styling */
         .steps {
             background-color: #f8f9fa;
             padding: 10px;
@@ -139,6 +145,7 @@
             display: flex;
             align-items: flex-start;
         }
+        .step-item:last-child { margin-bottom: 0; }
         .step-icon { margin-right: 8px; min-width: 15px; }
 
         .detail-row {
@@ -182,7 +189,6 @@
             margin-right: 15px;
         }
 
-        /* Map Button Style */
         .map-btn {
             display: inline-block;
             background-color: #e6f7ff;
@@ -219,7 +225,6 @@
             margin-bottom: 8px;
             font-size: 0.95em;
         }
-
         .tag {
             background-color: #eee;
             padding: 2px 6px;
@@ -258,6 +263,19 @@
     </div>
     
     <div id="tips" class="section">
+        <div class="card tip">
+            <span class="time">📚 小孩行前閱讀</span>
+            <div class="title">讓旅行更好玩的書單</div>
+            <div class="desc">出發前讀這些，小孩現場看到會超有共鳴！</div>
+            <div class="steps">
+                <div class="step-item"><span class="step-icon">🐭</span><strong>14隻老鼠系列</strong> (6歲)：預習輕井澤的森林生活。</div>
+                <div class="step-item"><span class="step-icon">🐰</span><strong>米飛兔 (Miffy)</strong> (6歲)：為 Miffy Kitchen 做鋪陳。</div>
+                <div class="step-item"><span class="step-icon">⚡</span><strong>寶可夢圖鑑</strong> (10歲+6歲)：寶可夢中心 DX 購物攻略。</div>
+                <div class="step-item"><span class="step-icon">❄️</span><strong>包姆與凱羅的冬日早晨</strong>：預習結冰池塘溜冰。</div>
+                <div class="step-item"><span class="step-icon">🕵️</span><strong>柯南理科檔案</strong> (10歲)：跟著爸爸學日本知識。</div>
+            </div>
+        </div>
+
         <div class="card tip">
             <span class="time">❄️ 輕井澤 2月穿搭</span>
             <div class="title">鞋子是關鍵！</div>
@@ -343,7 +361,7 @@
                     title: "機場 -> 輕井澤",
                     steps: [
                         "🎫 機場 JR 東日本中心購票 (N'EX + 新幹線)",
-                        "🚆 N'EX: 機場 -> 東京站 (B5月台)",
+                        "🚆 N'EX: 機場 -> 東京站 (地下5樓, 預留30-40分轉乘)",
                         "🚶 轉乘: 搭電梯至 2F 新幹線月台",
                         "🚄 新幹線: 東京 -> 輕井澤 (南口)",
                         "🚕 計程車: 輕井澤站 -> 王子西館"
@@ -424,38 +442,53 @@
             events: [
                 {
                     type: "transport",
-                    time: "12:00 退房後",
-                    title: "移動至東京",
-                    steps: [
-                        "🚄 新幹線: 輕井澤 -> 東京站",
-                        "🚕 關鍵: 東京站搭計程車直達 Conrad"
-                    ]
+                    time: "09:30 - 11:10",
+                    title: "虹夕諾雅退房 -> 返回東京",
+                    desc: "計程車至輕井澤站，轉搭新幹線",
+                    steps: ["🚄 建議班次: Hakutaka 556 (09:58發) -> 11:12 抵達東京"]
                 },
                 {
-                    type: "hotel",
-                    time: "15:00 Check-in",
-                    title: "東京康萊德酒店",
-                    desc: "King Exe Suite Bay View",
-                    ref: "3316059736",
-                    location: "Conrad Tokyo"
+                    type: "transport",
+                    time: "11:20",
+                    title: "行李寄放 @ 東京車站",
+                    desc: "八重洲口 (Yaesu Exit)",
+                    notes: "寄放後一身輕，步行去寶可夢中心"
                 },
                 {
                     type: "walk",
-                    time: "下午/晚間",
+                    time: "11:40 - 14:15",
                     title: "⚡ 必逛：寶可夢中心 DX",
                     desc: "日本橋高島屋 S.C. 東館 5F",
                     location: "Pokemon Center Tokyo DX",
-                    notes: "離飯店僅 5-8 分鐘車程，小孩首選！"
+                    notes: "全東京最大！有巨大卡比獸。"
+                },
+                {
+                    type: "transport",
+                    time: "14:30",
+                    title: "返回東京站取行李 -> 搭計程車",
+                    desc: "前往 Conrad Tokyo",
+                    steps: ["🚕 計程車約 10-15 分鐘"]
+                },
+                {
+                    type: "food",
+                    time: "15:00",
+                    title: "Check-in 暨 下午茶時光",
+                    desc: "37樓 Executive Lounge",
+                    notes: "準時入座享受精緻甜點與海景"
+                },
+                {
+                    type: "walk",
+                    time: "16:30 (彈性)",
+                    title: "銀座木村家買麵包",
+                    desc: "搭車去買紅豆麵包當伴手禮",
+                    location: "Ginza Kimuraya"
                 },
                 {
                     type: "food",
                     time: "18:00 - 20:00",
                     title: "🍸 晚餐策略：行政酒廊",
-                    desc: "37樓 Executive Lounge",
-                    steps: [
-                        "🍽️ 傍晚雞尾酒時段提供熱食與小點",
-                        "💡 建議：若小孩累了，可直接把這當作晚餐，大人小酌放鬆。"
-                    ]
+                    desc: "傍晚雞尾酒 (Evening Cocktails)",
+                    steps: ["🍽️ 提供熱食與小點", "💡 小孩吃飽、大人小酌，免去外面排隊"]
                 }
             ]
         },
@@ -514,20 +547,12 @@
             ]
         },
         {
-            title: "⚡ 東京親子購物首選",
-            tag: "適合: 2/18 下午/晚間",
+            title: "⚡ 東京寶可夢 & 銀座散策",
+            tag: "適合: 2/18 下午",
             content: [
-                { text: "📍 **寶可夢中心 Tokyo DX**: 日本橋高島屋 S.C. 東館 5F，有卡比獸與專屬Cafe。", query: "Pokemon Center Tokyo DX" },
-                { text: "💡 **交通**: 從 Conrad 搭計程車約 ¥800-1000，非常近。", query: "" }
-            ]
-        },
-        {
-            title: "🔴 銀座經典 & 木村家紅豆麵包",
-            tag: "適合: 2/18 傍晚",
-            content: [
+                { text: "📍 **寶可夢中心 Tokyo DX**: 日本橋高島屋 S.C. 東館 5F，東京最大！", query: "Pokemon Center Tokyo DX" },
                 { text: "📍 **銀座 木村家**: 紅豆麵包發源地。必買 **酒種 櫻** 與 **酒種 小倉**。", query: "Ginza Kimuraya" },
-                { text: "✏️ **伊東屋 (G.Itoya)**: 文具控天堂，10歲小朋友會愛死這裡。", query: "G. Itoya" },
-                { text: "👕 **UNIQLO 銀座**: 12層樓世界旗艦店。", query: "UNIQLO Ginza" }
+                { text: "💡 **交通**: 善用 Uber/GO 計程車移動。", query: "" }
             ]
         }
     ];
@@ -580,24 +605,7 @@
             ]
         },
         {
-            location: "📍 輕井澤王子 Outlet (備案)",
-            restaurants: [
-                {
-                    name: "明治亭 (Meijitei)",
-                    type: "醬汁炸豬排丼",
-                    desc: "長野縣名物。**非牛友善**首選，豬排酥脆醬汁濃郁，一定要試試。",
-                    query: "Meijitei Karuizawa Prince Shopping Plaza"
-                },
-                {
-                    name: "築地晴吉 (Tsukiji Harekichi)",
-                    type: "壽司",
-                    desc: "新鮮壽司。可單點避開蝦子。",
-                    query: "Tsukiji Harekichi Karuizawa"
-                }
-            ]
-        },
-        {
-            location: "📍 東京銀座 / 汐留 (2/18 晚餐)",
+            location: "📍 東京銀座 / 日本橋 (2/18 備案)",
             restaurants: [
                 {
                     name: "鳥銀 (Toriggin) 銀座本店",
@@ -610,12 +618,6 @@
                     type: "稻庭烏龍麵",
                     desc: "麵條細滑口感極佳，小孩通常會吃光光。沾醬有芝麻與醬油兩種。",
                     query: "Satou Yosuke Ginza"
-                },
-                {
-                    name: "Bubby's 汐留",
-                    type: "美式餐廳",
-                    desc: "離 Conrad 很近。有漢堡也有**蘋果派**，適合不想走太遠的選擇。",
-                    query: "Bubby's Shiodome"
                 }
             ]
         }
@@ -718,9 +720,7 @@
         document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-        // Find the specific tab element that was clicked
-        // Since we are using inline onclick, we need to manually match
-        // A simpler way is to just add 'active' to all tabs that match the ID text, but here:
+        
         const tabs = document.querySelectorAll('.nav-tab');
         if(tabId === 'itinerary') tabs[0].classList.add('active');
         if(tabId === 'guides') tabs[1].classList.add('active');
